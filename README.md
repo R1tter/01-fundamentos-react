@@ -1,5 +1,3 @@
----
-
 ```markdown
 # ReactJS Fundamentals Update
 
