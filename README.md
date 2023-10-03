@@ -1,3 +1,5 @@
+---
+
 ```markdown
 # ReactJS Fundamentals Update
 
@@ -52,5 +54,6 @@ This project is open-source. Feel free to fork, modify, and contribute.
 <p align="center">
   Made with 💜 by R1tter
 </p>
-
 ```
+
+---
