@@ -1,30 +1,44 @@
+import { format, formatDistanceToNow } from 'date-fns'
+import ptBR from 'date-fns/locale/pt-BR'
+
 import { Avatar } from './Avatar';
 import { Comment } from './Comment';
+
 import styles from './Post.module.css';
 
-export function Post (props) {
-  console.log(props)
+export function Post ({ author, publishedAt, content }) {
+ const publishedDateFormatted = format(publishedAt, "d 'de' LLLL 'às' HH:mm'h'", {
+  locale: ptBR
+ })
+
+ const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
+  locale: ptBR,
+  addSuffix: true,
+ })
+
   return (
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src="https://github.com/R1tter.png" />
+          <Avatar src={author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>Marcelo Ritter</strong>
-            <span>Tech Lead</span>
+            <strong>{author.name}</strong>
+            <span>{author.role}</span>
           </div>
         </div>
-        <time title='26 de Setembro às 14:47' dateTime='2023-09-26 14:47:04'>Publicado há 1h</time>
+        <time title={publishedDateFormatted} dateTime={publishedAt.toISOString()}>
+          {publishedDateRelativeToNow}
+        </time>
       </header>
 
       <div className={styles.content}>
-        <p>Fala galeraa 👋🏽</p>
-        <p>Acabei de subir mais um projeto no meu portifa. É um projeto que fiz utilizando o OpenAi. O nome do projeto é UploadAi 🤖</p>
-        <p>👉🏽{' '}<a href="">https://github.com/R1tter/upload-ai</a></p>
-        <p>
-          <a href="">#novoprojeto</a>{' '}
-          <a href="">#AI</a>
-        </p>
+        {content.map(line => {
+          if (line.type === 'paragraph') {
+            return <p>{line.content}</p>
+          } else if (line.type === 'link') {
+            return <p><a href="#">{line.content}</a></p>
+          }
+        })}
       </div>
 
       <form className={styles.commentForm}>
